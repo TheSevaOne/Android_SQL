@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SQLAndroid</string>
+    <string name="connect_button">Connect</string>
+    <string name="adress_of_sql_database">Adress of SQL database</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="port">Port</string>
+</resources>
