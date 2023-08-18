@@ -40,6 +40,7 @@
             android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:hint="@string/adress_of_sql_database"
+            android:text="10.0.2.2"
             android:importantForAutofill="no"
             android:inputType="text"
             android:minHeight="48dp"
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content"
             android:autofillHints="no"
             android:hint="@string/port"
+            android:text="5000"
             android:minHeight="48dp"
             android:textColorHint="#8D6E63"
             android:inputType="number"/>

@@ -9,14 +9,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
 
 public class Requests {
     //http://10.0.2.2
-    public ArrayList connect_(String host, String port, String folder) throws IOException, JSONException {
+    public String connect_(String host, String port, String folder) throws IOException, JSONException {
         URL url = new URL("http://"+host+":"+port+folder);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        ArrayList error = new ArrayList<>();
         con.setRequestMethod("GET");
         int status = con.getResponseCode();
         if (status == HttpURLConnection.HTTP_OK) {
@@ -28,22 +27,47 @@ public class Requests {
             }
             in.close();
 
-            return  parser(content.toString());
+            return  content.toString();
         } else {
-            error.add("GET request failed with status code: " + status);
-            return  error;
+            return "GET request failed with status code: " + status;
         }
 
     }
+    /*
+    protected  get_values()
+    {
+        JSONObject jObj = new JSONObject(result);
+        JSONArray jArray =jObj.getJSONArray("Users");
+        for (int i = 0; i < jArray.length(); i++) {
+            JSONObject json_data = jArray.getJSONObject(i);
+            Users user = new Users();
+            user.setId(json_data.getInt("id"));
+            user.setName(json_data.getString("name"));
+            user.setUsername(json_data.getString("username"));
+            user.setEmail(json_data.getString("email"));
+            users.add(user);
+        }
+    }
 
+     */
+    public ArrayList parser(String response, String type) throws JSONException {
 
-    public ArrayList parser(String response) throws JSONException {
-        JSONObject json = new JSONObject(response);
-        String values=json.getString("response");
-        values=values.replaceAll("[\\[\\](){}\"]","");
-        ArrayList<String> list = new ArrayList<String>(Arrays.asList(values.split(",")));
+            JSONObject json = new JSONObject(response);
+            if (type.equals("message"))
+        {
+            String values=json.getString("response");
+            values=values.replaceAll("[\\[\\](){}\"]","");
+            ArrayList<String> list = new ArrayList<String>(Arrays.asList(values.split(",")));
+            return  list;
 
-        return  list;
+        }
+        else if (type.equals("table")) {
+                JSONArray jArray =json.getJSONArray("response");
+                ArrayList<String> list = (ArrayList<String>) jArray.getJSONObject(0).keys();
+              return list;
+            }
+
+        return null;
     }
 
 
