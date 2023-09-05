@@ -15,22 +15,20 @@ public class Database_screen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String host = getIntent().getStringExtra("host");
-        String pwd = getIntent().getStringExtra("pwd");
         String port = getIntent().getStringExtra("port");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database_screen);
         TextView text = findViewById(R.id.textView);
-        ListView listView = findViewById(R.id.list);
         text.setText(host + ":" + port);
         new RequestTask().execute(host, port);
 
     }
 
-    public void Table_Intent(String db_name) {
-        Intent intent = new Intent(this, Table.class);
+    public void TableList_Intent(String db_name) {
+        Intent intent = new Intent(this, TableList.class);
         intent.putExtra("host", getIntent().getStringExtra("host"));
         intent.putExtra("port", getIntent().getStringExtra("port"));
-        intent.putExtra("db_name", db_name);
+        intent.putExtra("dbname", db_name);
         startActivity(intent);
 
     }
@@ -59,7 +57,7 @@ public class Database_screen extends AppCompatActivity {
             listView.setAdapter(adapter);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 String selectedItem = (String) parent.getItemAtPosition(position);
-                Table_Intent(selectedItem);
+                TableList_Intent(selectedItem);
             });
         }
     }

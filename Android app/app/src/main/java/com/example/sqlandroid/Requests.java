@@ -1,4 +1,7 @@
 package com.example.sqlandroid;
+import android.util.Log;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class Requests {
@@ -33,27 +38,10 @@ public class Requests {
         }
 
     }
-    /*
-    protected  get_values()
-    {
-        JSONObject jObj = new JSONObject(result);
-        JSONArray jArray =jObj.getJSONArray("Users");
-        for (int i = 0; i < jArray.length(); i++) {
-            JSONObject json_data = jArray.getJSONObject(i);
-            Users user = new Users();
-            user.setId(json_data.getInt("id"));
-            user.setName(json_data.getString("name"));
-            user.setUsername(json_data.getString("username"));
-            user.setEmail(json_data.getString("email"));
-            users.add(user);
-        }
-    }
-
-     */
     public ArrayList parser(String response, String type) throws JSONException {
 
-            JSONObject json = new JSONObject(response);
-            if (type.equals("message"))
+        JSONObject json = new JSONObject(response);
+        if (type.equals("message"))
         {
             String values=json.getString("response");
             values=values.replaceAll("[\\[\\](){}\"]","");
@@ -62,10 +50,17 @@ public class Requests {
 
         }
         else if (type.equals("table")) {
-                JSONArray jArray =json.getJSONArray("response");
-                ArrayList<String> list = (ArrayList<String>) jArray.getJSONObject(0).keys();
-              return list;
+            ArrayList<String> list = new ArrayList<String>();
+            JSONArray jArray = json.getJSONArray("response");
+            JSONObject exemplar = jArray.getJSONObject(0);
+            Iterator<String> keys = exemplar.keys();
+            while (keys.hasNext())
+            {
+                String key=keys.next();
+                list.add(key);
             }
+            return list;
+        }
 
         return null;
     }

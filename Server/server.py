@@ -13,7 +13,7 @@ app = FastAPI()
 @app.on_event("startup")
 async def startup():
     app.db = await asyncpg.create_pool(user='admin', password='admin', database='test', host=str(HOST), port=str(PORT))
-
+    
 
 @app.on_event("shutdown")
 async def stop():

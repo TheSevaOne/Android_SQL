@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         int id=v.getId();
         if (id==R.id.button) {
             DatabaseScreen_Intent();
-            }
+        }
     }
 
-    }
+}
